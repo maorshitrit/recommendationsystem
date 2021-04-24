@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class mainscreen extends JFrame {
 
@@ -59,7 +60,6 @@ public mainscreen()
    // c.ReadfiletoHashmapMovies("files//ratedmoviesfull.csv");
     //c.ReadFiletoHashmapUser("files//ratings.csv");
    //c.algorithem("files//ratings.csv","files//ratedmoviesfull.csv");
-
      ActionListener listener = new ActionListener()
         {
            public void actionPerformed(ActionEvent event)
@@ -163,7 +163,6 @@ public mainscreen()
      // add the check boxes
 
      JPanel buttonPanel = new JPanel();
-
      comedy = new JCheckBox("Comedy");
      comedy.addActionListener(listener);
      buttonPanel.add(comedy);
@@ -232,6 +231,13 @@ public mainscreen()
      getContentPane().add(textpanel);
      buttonPanel.setPreferredSize(new Dimension(350,80));
      buttonPanel.setBackground(Color.LIGHT_GRAY);
+     
+     JLabel lbl = new JLabel("");       
+     lbl.setIcon(new ImageIcon("pic\\backgroundjava.png"));       
+     lbl.setHorizontalTextPosition(SwingConstants.CENTER);       
+     lbl.setHorizontalAlignment(SwingConstants.CENTER);        
+     lbl.setBounds(0, 0, 994, 549);        
+     this.getContentPane().add(lbl);
 
      
      
