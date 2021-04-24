@@ -275,27 +275,7 @@ public mainscreen()
 		 {
 			return 2;  // בודק האם הסרט קיים במאגר הסרטים
 		 }
-	 /*splashscreen sp = new splashscreen();
- 	 sp.setVisible(true);
- 	 dispose();
- 	 try {
- 		 for(int x =0;x<=100;x++)
- 		 {
- 			 sp.progressBar.setValue(x);
- 			 Thread.sleep(50);
- 		 }
- 		 
- 	 } catch(InterruptedException e)
- 	 {
- 		 e.printStackTrace();
- 	 }
-	  EventQueue.invokeLater(new Runnable()
-      {
-         public void run()
-         {*/
         	 c.AddUser(geners,id1,id2,id3,id4,id5); // מוסיף את המשתמש
-         /*}
-      });*/
 	  return 1;
 
 	  
