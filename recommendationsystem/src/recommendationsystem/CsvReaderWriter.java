@@ -229,21 +229,55 @@ public class CsvReaderWriter {
 		  }
 		
 	}
- public static int Checkifthemovieexist(String file,String movie) {
+	public static int Checkifthemovieexist(String file,String movie) {
+
+		  BufferedReader reader = null;
+		  String line = "";
+		  
+		  try {
+		   reader = new BufferedReader(new FileReader(file)); // 
+		   while((line = reader.readLine()) != null) { // 
+		    
+		    String[] row = line.split(",");  // 
+		    row[1] = row[1].replaceAll("^\"|\"$", "");
+		   if(row[1].equalsIgnoreCase(movie)) {  // 
+		     return Integer.parseInt(row[0]);  // 
+		   }
+		 }
+	   }
+		  catch(Exception e) {
+		   e.printStackTrace();
+		  }
+		  finally {
+		   try {
+		    reader.close();
+		   } catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		   }
+		  }
+		  return -1; //
+	 }
+ public static ArrayList<String> Checkifthemovieexist1(String file) {
 
 	  BufferedReader reader = null;
 	  String line = "";
+	  ArrayList<String> movies = new ArrayList<String>();
 	  
 	  try {
 	   reader = new BufferedReader(new FileReader(file)); // קורא את הקובץ
+	   line = reader.readLine();
 	   while((line = reader.readLine()) != null) { // בודק שהקובץ לא נגמר
 	    
 	    String[] row = line.split(",");  // מפצל למערך שמופרד בפיסיקים
 	    row[1] = row[1].replaceAll("^\"|\"$", "");
-	   if(row[1].equalsIgnoreCase(movie)) {  // בודק האם השם של הסרט נמצא במאגר
-	     return Integer.parseInt(row[0]);  // מחזיר את המזהה של הסרט
-	   }
+	    movies.add(row[1]);
+	 //  if(row[1].equalsIgnoreCase(movie)) {  // בודק האם השם של הסרט נמצא במאגר
+	   //  return Integer.parseInt(row[0]);  // מחזיר את המזהה של הסרט
+	  // }
 	 }
+	    return movies;
+
    }
 	  catch(Exception e) {
 	   e.printStackTrace();
@@ -256,7 +290,7 @@ public class CsvReaderWriter {
 	    e.printStackTrace();
 	   }
 	  }
-	  return -1; // לא מצא את הסרט
+	  return null; // לא מצא את הסרט
  }
  public void AddUser(ArrayList<String> geners,int id1,int id2,int id3,int id4, int id5) {
 	// TODO Auto-generated method stub

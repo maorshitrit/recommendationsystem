@@ -23,9 +23,9 @@ public static void main(String[] args) throws Exception {
               frame.getContentPane().setLayout(new FlowLayout());
               frame.pack();
               frame.setVisible(true);
-              frame.setResizable(false);
-              frame.setBounds(300,0,980,815);
-              frame.setSize(980,815);
+             // frame.setResizable(false);
+              frame.setBounds(600,0,980,815);
+              frame.setSize(660,920);
            }
         });
         

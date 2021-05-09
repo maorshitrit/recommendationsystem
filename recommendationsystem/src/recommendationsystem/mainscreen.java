@@ -10,11 +10,14 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,43 +26,36 @@ import javax.swing.SwingConstants;
 
 public class mainscreen extends JFrame {
 
-private JLabel label,background;
+ private JLabel label,background,genersname;
   private JCheckBox comedy,action,drama,horror,romance,adventure,crime,documentary;
-  private TextField name, age, mail,movie1,movie2,movie3,movie4,movie5;
+  private ArrayList<JComboBox> combo;
+  
   private static final int DEFAULT_WIDTH = 300;
   private static final int DEFAULT_HEIGHT = 200;
   private static final int FONTSIZE = 24;
   int pricecount=0;
   int count = 0;
   int count2=0;
+  int x =0;
   int price;
   private JPanel buttonPanel,textpanel;
   private ButtonGroup group;
+  private ArrayList<String> movies;
   private static final int DEFAULT_SIZE = 36;
   private static CsvReaderWriter c = new CsvReaderWriter();
+  private ArrayList<String> movienames;
   public static ArrayList<String> geners = new ArrayList<String>();
 public mainscreen()
-  {    
+  {    		
+	combo = new ArrayList<JComboBox>();
+	 movies = new ArrayList<String>();
+	 movienames = new ArrayList<String>();
+	 String arr[] = new  String [5];
+	 int ar2r[] = new  int [5];
   movie m;
- /* background = new JLabel();
- ImageIcon imageIcon = new ImageIcon("pic//backgroundjava.png");
- Image image = imageIcon.getImage();
-  image = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-  imageIcon = new ImageIcon(image);
-  background.setIcon(imageIcon);*/
-  Font font = new Font("", Font.BOLD, 15);
-      //name = new TextField("Enter your name", 15);
-    //  name.setFont(font);
-    //  age = new TextField("Enter your age", 15);
-     // age.setFont(font);
-   // mail = new TextField("Enter your mail", 15);
-    //  mail.setFont(font);
-    //  getContentPane().add(name);
-    //  getContentPane().add(age);
-  //    getContentPane().add(mail);
-   // c.ReadfiletoHashmapMovies("files//ratedmoviesfull.csv");
-    //c.ReadFiletoHashmapUser("files//ratings.csv");
-   //c.algorithem("files//ratings.csv","files//ratedmoviesfull.csv");
+  label = new JLabel("Select your favorite movies");
+  label.setFont(new Font("Ariel", Font.PLAIN, 20));
+  getContentPane().add(label);
      ActionListener listener = new ActionListener()
         {
            public void actionPerformed(ActionEvent event)
@@ -158,11 +154,19 @@ public mainscreen()
         group = new ButtonGroup();
         getContentPane().add(buttonPanel, BorderLayout.CENTER);
         pack();
-       
+        movies = c.Checkifthemovieexist1("files//ratedmoviesfull.csv");
 
      // add the check boxes
-
-     JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
+        JPanel test = new JPanel();
+        for(int i=0;i<5;i++)
+		{  // add the labels & the combobox
+			combo.add(combo_setup(x,70,400,400,movies));
+			x+=70;
+		}
+  
+        	
+        JLabel genersnam = new JLabel("Select geners");   
      comedy = new JCheckBox("Comedy");
      comedy.addActionListener(listener);
      buttonPanel.add(comedy);
@@ -193,23 +197,9 @@ public mainscreen()
      documentary.addActionListener(listener);
      buttonPanel.add(documentary);
      
-     movie1 = new TextField("enter a movie", 15);
-     movie1.setFont(font);
-     movie2 = new TextField("enter a movie", 15);
-     movie2.setFont(font);
-     movie3 = new TextField("enter a movie", 15);
-     movie3.setFont(font);
-
-     movie4 = new TextField("enter a movie", 15);
-     movie4.setFont(font);
-     movie5 = new TextField("enter a movie", 15);
-     movie5.setFont(font);
-     
-     getContentPane().add(movie1,BorderLayout.CENTER);
-     getContentPane().add(movie2,BorderLayout.CENTER);
-     getContentPane().add(movie3,BorderLayout.CENTER);
-     getContentPane().add(movie4,BorderLayout.CENTER);
-     getContentPane().add(movie5,BorderLayout.CENTER);
+     getContentPane().add(test,BorderLayout.CENTER);
+     test.add(genersnam);
+     genersnam.setFont(new Font("Ariel", Font.BOLD, 20));
          
      
 
@@ -238,56 +228,45 @@ public mainscreen()
      lbl.setHorizontalAlignment(SwingConstants.CENTER);        
      lbl.setBounds(0, 0, 994, 549);        
      this.getContentPane().add(lbl);
+     int id1,id2,id3,id4,id5;
 
      
      
  
      b.addActionListener(new ActionListener(){  
            public void actionPerformed(ActionEvent e){
-        	   if(CheckIfok()==1)
-        	   {
-        		  // c.tenmoviestoshow(geners);
+        	   if(count!=0)
+        	   {  for(int j=0;j<combo.size();j++)
+	       		{
+	       			arr[j]=((String)combo.get(j).getSelectedItem().toString());
+	       			ar2r[j] = c.Checkifthemovieexist("files//ratedmoviesfull.csv",arr[j]);
+	       			System.out.println(arr[j]);
+	       			System.out.println(ar2r[j]);
+	       		}
+        		  c.AddUser(geners,ar2r[0],ar2r[1],ar2r[2],ar2r[3],ar2r[4]);
         		   Secondpage sec = new Secondpage();
-        		  // sec.getusergeners(geners);
         		   sec.setVisible(true);
         		   dispose();
         	   }
         	   else
-        		   if(CheckIfok()==2)
-        	   {
-        			   JOptionPane.showMessageDialog(null, "the movie is not exist");
-        	   }
-        		   else
-        		   {
-        			   JOptionPane.showMessageDialog(null, "You have to fill all the fields");
-        		   }
+             	   JOptionPane.showMessageDialog(null, "You have to fill all the fields");
 
-        	   
-         
-          pricecount=0;
-               
-           
+                     
        }  
    });
   }
-  public int CheckIfok()
-  {
-	  int id1,id2,id3,id4,id5;
-	  CsvReaderWriter csv = null; 
-	  if(movie1.getText().equals("enter a movie") ||movie2.getText().equals("enter a movie") ||movie3.getText().equals("enter a movie") ||movie4.getText().equals("enter a movie") ||movie5.getText().equals("enter a movie")||count ==0 )
-		  return 0;  // בודק האם הכל נכתב בוצרה תקינה
-	  else
-		 if((id1 = csv.Checkifthemovieexist("files//ratedmoviesfull.csv",movie1.getText()))==-1 || (id2 = csv.Checkifthemovieexist("files//ratedmoviesfull.csv",movie2.getText()))==-1 || (id3 = csv.Checkifthemovieexist("files//ratedmoviesfull.csv",movie3.getText()))==-1 || (id4 = csv.Checkifthemovieexist("files//ratedmoviesfull.csv",movie4.getText()))==-1 || (id5 = csv.Checkifthemovieexist("files//ratedmoviesfull.csv",movie5.getText()))==-1)
-		 {
-			return 2;  // בודק האם הסרט קיים במאגר הסרטים
-		 }
-        	 c.AddUser(geners,id1,id2,id3,id4,id5); // מוסיף את המשתמש
-	  return 1;
+private  JComboBox combo_setup(int x, int y, int width, int height, ArrayList<String> movies) {
+    // function gets label's settings
+    // function creates the label with the given settings and returns it
+    String [] messageStrings = new String[movies.size()];
+    Collections.sort(movies, new sortbyname());
+    movies.toArray(messageStrings);
+	JComboBox cmbox = new JComboBox(messageStrings);
+	cmbox.setVisible(true);
+	cmbox.setBounds(x, y, width, height);
+    getContentPane().add(cmbox);
+    return cmbox;
+}
 
-	  
-  }
-  
- 
- 
  
 }
